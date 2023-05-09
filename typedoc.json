@@ -1,0 +1,10 @@
+{
+    "name": "census_api",
+    "entryPoints": ["./src/app.ts"],
+    "excludePrivate": true,
+    "excludeProtected": true,
+    "hideGenerator": true,
+    "readme": "none",
+    "publicPath": "api/",
+    "out": "docs/api"
+}
