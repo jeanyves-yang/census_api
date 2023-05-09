@@ -4,10 +4,9 @@ on:
     branches:
       - main
 jobs:
-  pack:
+  pack:  # to verify the deployment originates from an appropriate source
     permissions:
-      pages: write      # to deploy to Pages
-      id-token: write   # to verify the deployment originates from an appropriate source
+      contents: write
     name: Build documentation
     runs-on: ubuntu-latest
     steps:
@@ -26,7 +25,8 @@ jobs:
       - name: Create docs locally in CI
         run: npm run docs:api 
       - name: Deploy docs to GH pages
-        uses: actions/deploy-pages@v2
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          artifact_name: docs
+          folder: docs # The folder the action should deploy.
+          branch: gh-pages
 
