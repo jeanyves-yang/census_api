@@ -1,0 +1,10 @@
+{
+    "name": "apricity-date",
+    "entryPoints": ["./src/index.ts"],
+    "excludePrivate": true,
+    "excludeProtected": true,
+    "hideGenerator": true,
+    "readme": "none",
+    "publicPath": "api/",
+    "out": "docs/api"
+}
