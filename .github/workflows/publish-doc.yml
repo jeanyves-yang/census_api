@@ -1,14 +1,13 @@
-name: Publish documentation
+name: Build and Tests
 on:
-  push:
+  pull_request:
     branches:
       - main
 jobs:
-  pack:  # to verify the deployment originates from an appropriate source
-    permissions:
-      contents: write
-    name: Build documentation
+  build-and-test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -19,14 +18,14 @@ jobs:
         with:
           node-version: '16.x'
           registry-url: 'https://npm.pkg.github.com'
-          scope: '@census_api'
       - run: npm install
       - run: npm run build
-      - name: Create docs locally in CI
-        run: npm run docs:api 
-      - name: Deploy docs to GH pages
-        uses: JamesIves/github-pages-deploy-action@v4
+  check-docs:
+    name: Check doc is up to date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
-          folder: docs # The folder the action should deploy.
-          branch: gh-pages
-
+          node-version: '16'
+      - run: scripts/check-doc.sh
