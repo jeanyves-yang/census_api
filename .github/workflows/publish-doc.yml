@@ -1,0 +1,29 @@
+name: Publish documentation
+on:
+  push:
+    branches:
+      - main
+jobs:
+  pack:
+    name: Build documentation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@census_api'
+      - run: npm install
+      - run: npm run build
+      - name: Create docs locally in CI
+        run: npm run docs:api 
+      - name: Deploy docs to GH pages
+        uses: actions/deploy-pages@v2
+        with:
+          artifact_name: docs
+
